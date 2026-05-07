@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0f0;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        h1 { font-size: 2rem; color: #a78bfa; }
+        #btn-nueva {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        #btn-nueva:hover { opacity: 0.85; }
+        .tareas-lista { display: flex; flex-direction: column; gap: 1rem; }
+        .tarea-item {
+            background: #1e1e3a;
+            border: 1px solid #2d2d4e;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tarea-item.completada { opacity: 0.55; }
+        .tarea-item .titulo { font-size: 1.1rem; font-weight: 600; flex: 1; }
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 99px;
+            font-weight: 700;
+        }
+        .badge-pendiente { background: #fbbf24; color: #1f2937; }
+        .badge-completada { background: #34d399; color: #064e3b; }
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mis Tareas</h1>
+        <a id="btn-nueva" href="/tareas/nueva">+ Nueva Tarea</a>
+    </header>
+
+    <main>
+        <div id="lista-tareas" class="tareas-lista">
+            <div th:if="${#lists.isEmpty(tareas)}" class="empty">
+                No hay tareas registradas. ¡Crea una nueva!
+            </div>
+            <div th:each="t : ${tareas}"
+                 th:classappend="${t.completada} ? 'completada'"
+                 class="tarea-item">
+                <span class="titulo" th:text="${t.titulo}">Título</span>
+                <span th:if="${!t.completada}" class="badge badge-pendiente">Pendiente</span>
+                <span th:if="${t.completada}"  class="badge badge-completada">Completada</span>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

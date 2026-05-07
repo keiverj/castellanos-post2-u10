@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Tarea</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .card {
+            background: #1e1e3a;
+            border: 1px solid #2d2d4e;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 { font-size: 1.75rem; color: #a78bfa; margin-bottom: 2rem; }
+        label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; color: #9ca3af; }
+        input[type="text"], textarea {
+            width: 100%;
+            background: #12122a;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: #e0e0f0;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+        #btn-guardar {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            border: none;
+            padding: 0.85rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        #btn-guardar:hover { opacity: 0.85; }
+        .back { display: inline-block; margin-top: 1rem; color: #6b7280; text-decoration: none; font-size: 0.9rem; }
+        .back:hover { color: #a78bfa; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Nueva Tarea</h1>
+        <form id="form-nueva-tarea"
+              th:action="@{/tareas/crear}"
+              method="post">
+            <label for="input-titulo">Título *</label>
+            <input id="input-titulo" type="text" name="titulo"
+                   placeholder="Ej: Revisar documentación" required>
+
+            <label for="input-descripcion">Descripción</label>
+            <textarea id="input-descripcion" name="descripcion"
+                      placeholder="Descripción opcional..."></textarea>
+
+            <button id="btn-guardar" type="submit">Guardar Tarea</button>
+        </form>
+        <a class="back" href="/tareas">← Volver a la lista</a>
+    </div>
+</body>
+</html>
