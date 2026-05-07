@@ -1,0 +1,65 @@
+name: API Tests con Newman
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout del repositorio
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # 2. Configurar Java 21 (Temurin)
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven
+
+      # 3. Compilar el JAR (sin ejecutar tests de Selenium en CI)
+      - name: Compilar JAR con Maven
+        run: mvn -B package -DskipTests
+
+      # 4. Iniciar la aplicación en segundo plano
+      - name: Iniciar aplicación Spring Boot
+        run: java -jar target/*.jar &
+
+      # 5. Esperar a que la aplicación responda en /actuator/health
+      - name: Esperar disponibilidad del servidor
+        run: |
+          echo "Esperando que la aplicación inicie..."
+          for i in {1..20}; do
+            if curl -sf http://localhost:8080/actuator/health; then
+              echo "✅ Servidor disponible en intento $i"
+              break
+            fi
+            echo "Intento $i/20 — esperando 3s..."
+            sleep 3
+          done
+
+      # 6. Instalar Newman
+      - name: Instalar Newman
+        run: npm install -g newman
+
+      # 7. Ejecutar colección Postman con Newman
+      - name: Ejecutar pruebas con Newman
+        run: |
+          newman run postman/ColeccionToDo.json \
+            --environment postman/env-ci.json \
+            --reporters cli,junit \
+            --reporter-junit-export target/newman-report.xml
+
+      # 8. Publicar reporte XML de Newman (visible en pestaña Actions)
+      - name: Publicar reporte de Newman
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: newman-report
+          path: target/newman-report.xml
