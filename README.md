@@ -251,11 +251,17 @@ El workflow `api-tests.yml` ejecuta:
 
 ---
 
-## Estructura del repositorio (mínimo 3 commits)
+## Historial de commits
 
 ```
-feat: agregar estructura base del proyecto y dependencias Selenium
-feat: implementar Page Objects TareasPage y NuevaTareaPage con tests E2E
-feat: agregar colección Postman y workflow de GitHub Actions con Newman
-docs: documentar README con instrucciones y evidencias de checkpoints
+docs: agregar evidencia Checkpoint 3 - GitHub Actions con Newman en verde
+fix: corregir comparacion de tipo en assertions de tareaId y eliminar caracteres especiales del workflow
+docs: agregar README con instrucciones de ejecucion, arquitectura, endpoints y carpeta de capturas
+feat: agregar workflow GitHub Actions api-tests.yml con Newman, health-check y reporte JUnit
+feat: agregar coleccion Postman con 5 requests, test scripts y entornos local y CI para Newman
+test: agregar TareasE2ETest con 4 pruebas Selenium en modo headless usando patron Page Object Model
+feat: implementar Page Objects TareasPage y NuevaTareaPage con selectores By.id y By.cssSelector encapsulados
+feat: agregar vistas Thymeleaf tareas.html y nueva-tarea.html con selectores para Selenium
+feat: implementar servicio TareaService y controladores REST y MVC con endpoints CRUD
+chore: inicializar proyecto base con dependencias Selenium, Actuator y estructura de capas
 ```
