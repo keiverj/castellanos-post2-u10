@@ -37,7 +37,7 @@ jobs:
           echo "Esperando que la aplicación inicie..."
           for i in {1..20}; do
             if curl -sf http://localhost:8080/actuator/health; then
-              echo "✅ Servidor disponible en intento $i"
+              echo "Servidor disponible en intento $i"
               break
             fi
             echo "Intento $i/20 — esperando 3s..."
